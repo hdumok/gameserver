@@ -1,0 +1,101 @@
+{
+    "RPCProtoPath": "config/rpc.proto",
+    "ProtoPath": "config/test.proto",
+    "LogPath": "config/log4js.json",
+    "SaveCacheTime": "every 5 s",
+    "DebugMode": true,
+    "MaxCacheNum":{
+        "default": 3000,
+        "user": 3000
+    },
+    "MaxCacheLockNum":{
+        "default": 2,
+        "user": 2
+    },
+    "BoardcastKey":"Boardcast542b",
+    "BoardcastNum":1024,
+    "BoardcastType":{
+        "PVPMatch": 1,
+        "PVPLockStep": 2
+    },
+    "PVPDelayTime":1000,
+    "PVPLostTime":5000,
+    "PVPPlayerNum": 2,
+    "CloseCode": {
+        "Crowd" : 8000
+    },
+    "Mongo": {
+        "Debug": {"ip": "127.0.0.1", "port": "8000", "name": "fish", "user": "pxs", "password": "Nq0ptBGoF3", "param": { "auto_reconnect": true }},
+        "Release": {}
+    },
+    "Redis": {
+        "Debug": {"host": "mok.space", "port": "8001", "param": { "password": "Nq0ptBGoF3" }},
+        "Release": {}
+    },
+    "BootPath": {
+        "coder": "./util/Coder",
+        "loader": "./util/Loader",
+        "timer": "./util/Timer",
+        "io": "./util/IO",
+        "rpc": "./rpc/RPC",
+        "connector": "./connector/Connector",
+        "match": "./match/Match",
+        "room": "./room/Room",
+        "redis": "./db/Redis",
+        "cache": "./cache/Cache",
+        "mongo": "./db/Mongo",
+        "dispatch": "./dispatch/Dispatch",
+        "http":"./http/Http"
+    },
+    "Server": {
+        "Debug": {
+            "gate":{
+              "dispatchMax": null,
+              "dispatch": "min",
+	          "rpcRemote":[],
+              "boot":["io", "coder","loader", "rpc", "http", "redis", "dispatch"],
+              "list":[
+                {"id": "gate-1", "host": "127.0.0.1", "port": "8010"}
+              ]
+            },
+            "connector": {
+                "dispatchMax": null,
+                "dispatch": "min",
+		        "rpcRemote":["connector", "pvpmatch", "pvpscene", "cacheuser"],
+                "boot":["io", "coder", "loader", "timer", "rpc", "redis", "dispatch","connector"],
+                "list":[
+                    {"id": "connector-1", "host": "127.0.0.1", "port": "8110"}
+                 ]
+            },
+            "pvpscene": {
+                "dispatchMax": 1000,
+                "dispatch": "sessionMin",
+		        "rpcRemote":["connector", "cacheuser"],
+                "boot":["io", "coder", "loader", "timer", "rpc", "redis", "dispatch", "room"],
+                "list":[
+                    {"id": "pvpscene-1", "host": "127.0.0.1", "port": "8210"}
+                ]
+            },
+            "pvpmatch": {
+                "dispatch": "rand",
+		        "rpcRemote":["connector","pvpscene", "cacheuser"],
+                "boot":["io", "coder", "loader", "timer", "match", "rpc", "redis", "dispatch"],
+                "list":[
+                    {"id": "pvpmatch-1", "host": "127.0.0.1", "port": "8310"}
+                ]
+            },
+            "cacheuser": {
+                "cache": "user",
+                "dispatchMax": null,
+                "dispatch": "sessionMin",
+		        "rpcRemote":["connector"],
+                "boot":["io", "coder", "loader", "timer", "rpc", "redis", "dispatch", "cache", "mongo"],
+                "list":[
+                    {"id": "cacheuser-1", "host": "127.0.0.1", "port": "8410"}
+                ]
+            }
+        },
+        "Release": {
+        }
+    }
+}

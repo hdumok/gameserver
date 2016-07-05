@@ -1,0 +1,137 @@
+message SceneChangeData {
+   optional int64 Index = 1 [default = 0];
+   optional string Key = 2;
+}
+
+
+message ScenePlaceData {
+   optional int64 PosIndex = 1 [default = 0];
+   optional int64 ItemIndex = 2 [default = 0];
+   optional string Key = 3;
+}
+
+
+message SceneSkillData {
+   optional int64 HeroIndex = 1 [default = 0];
+   optional int64 SkillID = 2 [default = 0];
+}
+
+
+message Item {
+   optional int64 Key = 1 [default = 0];
+   optional int64 ID = 2 [default = 0];
+   optional int64 Num = 3 [default = 0];
+   map<string,int64> Attrib = 4;
+}
+message PVPInfoData {
+   repeated PVPUserData Users = 1;
+   optional int64 Seed = 2 [default = 0];
+}
+message PVPUserData {
+   optional string Key = 1;
+   repeated Item Items = 2;
+}
+
+
+message AttribData {
+   optional int64 Level = 1 [default = 0];
+   optional int64 Exp = 2 [default = 0];
+}
+message BattleData {
+   optional int64 Group = 1 [default = 0];
+   repeated BattleInfoData Infos = 2;
+}
+message BattleInfoData {
+   repeated int64 Info = 1;
+}
+message PackageData {
+   optional int64 Index = 1 [default = 0];
+   map<string,Item> Items = 2;
+}
+message PlayerData {
+   optional string Key = 1;
+   optional PackageData Package = 2;
+   optional AttribData Attrib = 3;
+   optional BattleData Battle = 4;
+}
+
+
+message InputData {
+   optional int64 ID = 1 [default = 0];
+   optional bytes Data = 2;
+}
+message InputFrameData {
+   optional int64 ID = 1 [default = 0];
+   repeated InputData Data = 2;
+}
+message InputFramesData {
+   repeated InputFrameData Data = 1;
+}
+
+
+message Request {
+   optional int64 ID = 1 [default = 0];
+   optional string CMD = 2;
+   optional bytes Data = 3;
+   optional string Schema = 4;
+   optional string Session = 5;
+}
+
+
+message Response {
+   optional int64 ID = 1 [default = 0];
+   optional string Error = 2;
+   optional bytes Data = 3;
+   optional string Schema = 4;
+   optional string Msg = 5;
+}
+
+
+message BattleChangeCmd {
+   optional int64 BattleIndex = 1 [default = 0];
+   optional int64 HeroKey = 2 [default = 0];
+   optional int64 Group = 3 [default = 0];
+}
+
+
+message BattleGroupCmd {
+   optional int64 Group = 3 [default = 0];
+}
+
+
+message LoginCmd {
+   optional string Key = 1;
+   optional string Secret = 2;
+}
+
+
+message PVPMatchCmd {
+}
+
+
+message PVPMatchCancelCmd {
+}
+
+
+message PVPEnterCmd {
+}
+
+
+message PVPLockStepCmd {
+   optional int64 ID = 1 [default = 0];
+   repeated InputData Data = 2;
+}
+
+
+message PVPDelayCmd {
+}
+
+
+message PVPFinishCmd {
+}
+
+
+message TestAddItemCmd {
+   optional int64 ID = 1 [default = 0];
+}
+

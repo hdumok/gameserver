@@ -1,0 +1,16 @@
+{
+    "appenders": [
+        {"type": "console"},
+        {
+            "type": "dateFile",
+            "filename": "logs/",
+            "pattern": "yyyy-MM-dd.txt",
+            "alwaysIncludePattern": true,
+            "maxLogSize": 1048576,
+            "category": "error"
+        }
+    ],
+
+    "replaceConsole": true,
+    "lineDebug": true
+}
